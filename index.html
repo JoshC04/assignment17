@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Assignment 14 - Edit/Delete</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <h1>Movies</h1>
+    <div id="container">
+      <div id="movies-list"></div>
+      <div id="movies-display"></div>
+    </div>
+    <a href="#" id="addMovie">Add Movie</a>
+    <div id="edit-movie-container" class="dialog hidden">
+        <span class="close">X</span>
+
+        <h3 id="edit-movie-title">Movie</h3>
+        <form id="add-or-edit" method="post">
+            <input type="hidden" name="_id" value="-1" />
+            <p>
+                <label for="title">Movie Title:</label>
+                <input type="text" name="title" id="title" required />
+            </p>
+            <p>
+                <label for="image">Movie Poster:</label>
+                <input type="file" name="image" id="image" accept="image/*" required />
+            </p>
+            <p>
+                <label for="length">Movie Length (minutes):</label>
+                <input type="number" name="length" id="length" required />
+            </p>
+            <p>
+                <label for="year">Movie Year:</label>
+                <input type="number" name="year" id="year" required />
+            </p>
+            <p>
+                <label for="director">Movie Director:</label>
+                <input type="text" name="director" id="director" required />
+            </p>
+            <p id="actors-input">
+                <label class="inline">Actors:</label>
+                <a href="#" id="add-actor">Add Actor</a>
+                <section id="actors"></section>
+            </p>
+            <p>
+                <button type="submit">Add Movie</button>
+            </p>
+        </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+body {
+  background-color: #745a33;
+}
+
+img {
+  max-width: 100px;
+  max-height: fit-content;
+  border: 5px #CFCA4C;
+}
+
+#container {
+  max-width: 100%;
+}
+
+#movies-list {
+  background-color: #9FE5C2;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 45%;
+}
+#movies-display {
+  background-color: #9FE5C2;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 45%;
+}
+
+#edit-movie-container {
+  background-color: #9FE5C2;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#clear-link {
+  color: #fcf5bf;
+}
+#edit-link {
+  color: #fcf5bf;
+}
+
+#addMovie {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #fcf5bf;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+#addMovie:hover {
+  background-color: #CFCA4C;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.close {
+  color: #fcf5bf;
+}
+
+.hidden {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+li {
+  color: #fcf5bf;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+.movie-section {
+  margin-top: 5px;
+  background-color: #CFCA4C;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+@media (min-width: 768px) {
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #movies-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 45%;
+  }
+  #movies-display {
+    position: relative;
+    width: 45%;
+  }  
+
+  #container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  .movie-section {
+    width: 95%;
+  }
+
+  #clear-link {
+    position: absolute;
+    top: 10;
+    right: 30px;
+  }
+  #edit-link {
+    position: absolute;
+    top: 8;
+    right: 10px;
+  }
+
+  #actors {
+    display: flex;
+    flex-direction: column;
+  }
+}
