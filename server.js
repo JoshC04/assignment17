@@ -17,6 +17,10 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.log("Could not connect to MongoDB...", err));
 
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
 const movieSchema = new mongoose.Schema({
   title: String,
   year: Number,
@@ -28,31 +32,6 @@ const movieSchema = new mongoose.Schema({
 
 const Movie = mongoose.model("Movie", movieSchema);
 
-const makeMovie = async () => {
-  const movie = new Movie({
-    title: "Dungeons and Dragons: Honor Among Thieves",
-    year: 2023,
-    image: "images/dnd.jpg",
-    actors: [
-      "Chris Pine",
-      "Michelle Rodriguez",
-      "Justice Smith",
-      "Sophia Lillis",
-    ],
-    length: 134,
-    director: "John Franics Daley",
-  });
-
-  const result = await movie.save();
-  console.log(result);
-};
-
-makeMovie();
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
 app.get("/api/movies", (req, res) => {
   getMovies(res);
   res.send(movies);
@@ -60,16 +39,8 @@ app.get("/api/movies", (req, res) => {
 
 const getMovies = async (res) => {
   const movies = await Movie.find();
+  res.send(movies);
   console.log(movies);
-};
-
-app.get("/api/movies/:id", (req, res) => {
-  getMovie(res, req.params.id);
-});
-
-const getMovie = async (res) => {
-  const movie = await Movie.findOne({ _id: id });
-  res.send(movie);
 };
 
 app.post("/api/movies", upload.single("image"), (req, res) => {
