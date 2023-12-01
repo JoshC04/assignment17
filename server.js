@@ -11,7 +11,9 @@ const mongoose = require("mongoose");
 const { get } = require("http");
 
 mongoose
-  .connect("mongodb+srv://joshCook:Binary@assignment17.yyxfcpj.mongodb.net/")
+  .connect(
+    "mongodb+srv://joshCook:d85E3y01kxAggwI2@assignment17.yyxfcpj.mongodb.net/"
+  )
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.log("Could not connect to MongoDB...", err));
 
