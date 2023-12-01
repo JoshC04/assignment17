@@ -6,9 +6,9 @@ app.use(express.static("public"));
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
-
 const mongoose = require("mongoose");
-const { get } = require("http");
+
+const upload = multer({ dest: __dirname + "/public/images" });
 
 mongoose
   .connect(
@@ -48,8 +48,6 @@ const makeMovie = async () => {
 };
 
 makeMovie();
-
-const upload = multer({ dest: __dirname + "/public/images" });
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
