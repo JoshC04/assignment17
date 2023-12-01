@@ -34,7 +34,6 @@ const Movie = mongoose.model("Movie", movieSchema);
 
 app.get("/api/movies", (req, res) => {
   getMovies(res);
-  res.send(movies);
 });
 
 const getMovies = async (res) => {
