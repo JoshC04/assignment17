@@ -7,15 +7,27 @@ app.use(express.json());
 const cors = require("cors");
 app.use(cors());
 
-const upload = multer({ dest: __dirname + "/public/images" });
+const mongoose = require("mongoose");
+const { get } = require("http");
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+mongoose
+  .connect("mongodb+srv://joshCook:Binary@assignment17.yyxfcpj.mongodb.net/")
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => console.log("Could not connect to MongoDB...", err));
+
+const movieSchema = new mongoose.Schema({
+  title: String,
+  year: Number,
+  image: String,
+  actors: [String],
+  length: Number,
+  director: String,
 });
 
-let movies = [
-  {
-    _id: 1,
+const Movie = mongoose.model("Movie", movieSchema);
+
+const makeMovie = async () => {
+  const movie = new Movie({
     title: "Dungeons and Dragons: Honor Among Thieves",
     year: 2023,
     image: "images/dnd.jpg",
@@ -27,79 +39,38 @@ let movies = [
     ],
     length: 134,
     director: "John Franics Daley",
-  },
-  {
-    _id: 2,
-    title: "Dune",
-    year: 2021,
-    image: "images/dune.jpg",
-    actors: [
-      "Timothée Chalamet",
-      "Rebecca Ferguson",
-      "Oscar Isaac",
-      "Josh Brolin",
-    ],
-    length: 155,
-    director: "Denis Villeneuve",
-  },
-  {
-    _id: 3,
-    title: "How to Train Your Dragon: The Hidden World",
-    year: 2019,
-    image: "images/httyd.jpg",
-    actors: [
-      "Jay Baruchel",
-      "America Ferrera",
-      "Cate Blanchett",
-      "Craig Ferguson",
-    ],
-    length: 104,
-    director: "Dean DeBlois",
-  },
-  {
-    _id: 4,
-    title: "Interstellar",
-    year: 2014,
-    image: "images/interstellar.jpg",
-    actors: [
-      "Matthew McConaughey",
-      "Anne Hathaway",
-      "Jessica Chastain",
-      "Michael Caine",
-    ],
-    length: 169,
-    director: "Christopher Nolan",
-  },
-  {
-    _id: 5,
-    title: "Spider-Man: Across the Spiderverse",
-    year: 2023,
-    image: "images/spiderman.webp",
-    actors: [
-      "Shameik Moore",
-      "Hailee Steinfeld",
-      "Jake Johnson",
-      "Oscar Isaac",
-    ],
-    length: 140,
-    director: "Joaquim Dos Santos",
-  },
-];
+  });
+
+  const result = await movie.save();
+  console.log(result);
+};
+
+makeMovie();
+
+const upload = multer({ dest: __dirname + "/public/images" });
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 
 app.get("/api/movies", (req, res) => {
+  getMovies(res);
   res.send(movies);
 });
 
+const getMovies = async (res) => {
+  const movies = await Movie.find();
+  console.log(movies);
+};
+
 app.get("/api/movies/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const movie = movies.find((m) => m.id === id);
-
-  if(!movie) {
-    res.status(404).send("Movie not found");
-  }
-
-  res.send(movie);
+  getMovie(res, req.params.id);
 });
+
+const getMovie = async (res) => {
+  const movie = await Movie.findOne({ _id: id });
+  res.send(movie);
+};
 
 app.post("/api/movies", upload.single("image"), (req, res) => {
   const validate = validateMovie(req.body);
@@ -109,52 +80,59 @@ app.post("/api/movies", upload.single("image"), (req, res) => {
     return;
   }
 
-  const movie = {
-    _id: movies.length + 1,
+  const movie = new Movie({
     title: req.body.title,
     year: req.body.year,
-    image: req.body.file,
+    image: req.body.image,
     actors: req.body.actors.split(","),
     length: req.body.length,
-    director: req.body.director
-  };
+    director: req.body.director,
+  });
 
-  movies.push(movie);
-  res.send(movie);
+  createMovie(res, movie);
 });
 
-app.put("/api/movies/:id", upload.single("image"), (req, res) => {
-  const id = parseInt(req.params.id);
-  const movie = movies.find((m) => m._id === id);
+const createMovie = async (res, movie) => {
+  const result = await movie.save();
+  res.send(result);
+  console.log(result);
+};
 
+app.put("/api/movies/:id", upload.single("image"), (req, res) => {
   const validate = validateMovie(req.body);
-  if(validate.error) {
+  if (validate.error) {
     res.status(400).send(validate.error.details[0].message);
     return;
   }
-
-  movie.title = req.body.title;
-  movie.year = req.body.year;
-  movie.image = req.body.image;
-  movie.actors = req.body.actors.split(",");
-  movie.length = req.body.length;
-  movie.director = req.body.director;
-
-  res.send(movie);
+  updateMovie(req, res);
 });
 
-app.delete("/api/movies/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const movie = movies.find((m) => m._id === id);
+const updateMovie = async (req, res) => {
+  let fields = {
+    title: req.body.title,
+    year: req.body.year,
+    image: req.body.image,
+    actors: req.body.actors.split(","),
+    length: req.body.length,
+    director: req.body.director,
+  };
 
-  if(!movie) {
-    res.status(404).send("Movie not found");
+  if (req.file) {
+    fields.image = "images/" + req.file.filename;
   }
 
-  const index = movies.indexOf(movie);
-  movies.splice(index, 1);
-  res.send(movie);
+  const result = await Movie.updateOne({ _id: req.params.id }, fields);
+  res.send(result);
+};
+
+app.delete("/api/movies/:id", (req, res) => {
+  removeMovie(res, req.params.id);
 });
+
+const removeMovie = async (res, id) => {
+  const result = await Movie.findByIdAndDelete(id);
+  res.send(result);
+};
 
 const validateMovie = (movie) => {
   const schema = Joi.object({
