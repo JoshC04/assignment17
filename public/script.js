@@ -112,7 +112,7 @@ const populateEditForm = (movie) => {
   const form = document.getElementById("add-or-edit");
   form._id.value = movie._id;
   form.title.value = movie.title;
-  form.image.value = movie.image;
+  form.image.name.value = movie.image;
   form.length.value = movie.length;
   form.year.value = movie.year;
   form.director.value = movie.director;
