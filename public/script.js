@@ -53,7 +53,7 @@ const displayMovieDetails = (movie) => {
   moviesDisplay.appendChild(img);
 
   const length = document.createElement("p");
-  length.innerHTML = "Length: " + movie.length+ " minutes";
+  length.innerHTML = "Length: " + movie.length + " minutes";
   moviesDisplay.appendChild(length);
 
   const year = document.createElement("p");
@@ -90,11 +90,11 @@ const displayMovieDetails = (movie) => {
 
 const deleteMovie = async (movie) => {
   console.log(`Deleting movie ${movie._id}`);
-    let response = await fetch(`/api/movies/${movie._id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-    }
+  let response = await fetch(`/api/movies/${movie._id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
   });
 
   if (response.status != 200) {
@@ -112,7 +112,7 @@ const populateEditForm = (movie) => {
   const form = document.getElementById("add-or-edit");
   form._id.value = movie._id;
   form.title.value = movie.title;
-  form.image = movie.image.value;
+  form.image.value = movie.image;
   form.length.value = movie.length;
   form.year.value = movie.year;
   form.director.value = movie.director;
@@ -145,13 +145,13 @@ const addOrEditMovie = async (e) => {
 
     response = await fetch("/api/movies", {
       method: "POST",
-      body: formData
+      body: formData,
     });
   } else {
     console.log(...formData);
     response = await fetch(`/api/movies/${form._id.value}`, {
       method: "PUT",
-      body: formData
+      body: formData,
     });
   }
 
@@ -161,7 +161,7 @@ const addOrEditMovie = async (e) => {
 
   response = await response.json();
 
-  if(form._id.value != -1) {
+  if (form._id.value != -1) {
     displayMovieDetails(response);
   }
 
