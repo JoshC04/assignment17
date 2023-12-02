@@ -53,7 +53,7 @@ app.post("/api/movies", upload.single("image"), (req, res) => {
   const movie = new Movie({
     title: req.body.title,
     year: req.body.year,
-    image: req.body.image,
+    image: String,
     actors: req.body.actors.split(","),
     length: req.body.length,
     director: req.body.director,
