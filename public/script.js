@@ -49,7 +49,7 @@ const displayMovieDetails = (movie) => {
   edit.id = "edit-link";
 
   const img = document.createElement("img");
-  img.src = movie.image;
+  img.src = movie.image.value;
   console.log(movie.image);
   moviesDisplay.appendChild(img);
 
