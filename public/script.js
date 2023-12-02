@@ -49,8 +49,8 @@ const displayMovieDetails = (movie) => {
   edit.id = "edit-link";
 
   const img = document.createElement("img");
-  console.log(movie.image);
   img.src = movie.image;
+  console.log(movie.image);
   moviesDisplay.appendChild(img);
 
   const length = document.createElement("p");
