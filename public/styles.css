@@ -5,7 +5,7 @@ body {
 img {
   max-width: 100px;
   max-height: fit-content;
-  border: 5px #CFCA4C;
+  border: 5px #cfca4c;
 }
 
 #container {
@@ -13,20 +13,20 @@ img {
 }
 
 #movies-list {
-  background-color: #9FE5C2;
+  background-color: #9fe5c2;
   padding: 10px;
   border-radius: 5px;
   max-width: 45%;
 }
 #movies-display {
-  background-color: #9FE5C2;
+  background-color: #9fe5c2;
   padding: 10px;
   border-radius: 5px;
   max-width: 45%;
 }
 
 #edit-movie-container {
-  background-color: #9FE5C2;
+  background-color: #9fe5c2;
   padding: 10px;
   border-radius: 5px;
 }
@@ -46,7 +46,7 @@ img {
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 #addMovie:hover {
-  background-color: #CFCA4C;
+  background-color: #cfca4c;
   padding: 5px;
   border-radius: 5px;
 }
@@ -80,13 +80,12 @@ a:hover {
 
 .movie-section {
   margin-top: 5px;
-  background-color: #CFCA4C;
+  background-color: #cfca4c;
   padding: 5px;
   border-radius: 5px;
 }
 
 @media (min-width: 768px) {
-  
   body {
     display: flex;
     flex-direction: column;
@@ -102,7 +101,7 @@ a:hover {
   #movies-display {
     position: relative;
     width: 45%;
-  }  
+  }
 
   #container {
     display: flex;

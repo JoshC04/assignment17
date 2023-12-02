@@ -53,11 +53,14 @@ app.post("/api/movies", upload.single("image"), (req, res) => {
   const movie = new Movie({
     title: req.body.title,
     year: req.body.year,
-    image: String,
     actors: req.body.actors.split(","),
     length: req.body.length,
     director: req.body.director,
   });
+
+  if (req.file) {
+    movie.image = "../public/images/" + req.file.filename;
+  }
 
   createMovie(res, movie);
 });
@@ -81,14 +84,13 @@ const updateMovie = async (req, res) => {
   let fields = {
     title: req.body.title,
     year: req.body.year,
-    image: req.body.image,
     actors: req.body.actors.split(","),
     length: req.body.length,
     director: req.body.director,
   };
 
   if (req.file) {
-    fields.image = "images/" + req.file.filename;
+    fields.image = "../public/images/" + req.file.filename;
   }
 
   const result = await Movie.updateOne({ _id: req.params.id }, fields);
