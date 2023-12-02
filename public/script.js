@@ -100,6 +100,7 @@ const deleteMovie = async (movie) => {
 
   if (response.status != 200) {
     console.log("Error deleting movie");
+    displayDeleteError();
     return;
   }
 
@@ -109,11 +110,19 @@ const deleteMovie = async (movie) => {
   resetForm();
 };
 
+const displayDeleteError = () => {
+  const errorDiv = document.getElementById("edit-movie-container");
+
+  const error = document.createElement("h2");
+  error.innerHTML = "Error deleting movie";
+  errorDiv.appendChild(error);
+};
+
 const populateEditForm = (movie) => {
   const form = document.getElementById("add-or-edit");
   form._id.value = movie._id;
   form.title.value = movie.title;
-  form.image.name.value = movie.image;
+  form.image.value = movie.image;
   form.length.value = movie.length;
   form.year.value = movie.year;
   form.director.value = movie.director;
@@ -158,6 +167,7 @@ const addOrEditMovie = async (e) => {
 
   if (response.status != 200) {
     console.log("Error adding movie");
+    displayAddError();
   }
 
   response = await response.json();
@@ -169,6 +179,14 @@ const addOrEditMovie = async (e) => {
   resetForm();
   document.querySelector(".dialog").classList.add("hidden");
   showMovies();
+};
+
+const displayAddError = () => {
+  const errorDiv = document.getElementById("edit-movie-container");
+
+  const error = document.createElement("h2");
+  error.innerHTML = "Error adding movie";
+  errorDiv.appendChild(error);
 };
 
 const getActors = () => {

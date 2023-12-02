@@ -59,7 +59,7 @@ app.post("/api/movies", upload.single("image"), (req, res) => {
   });
 
   if (req.file) {
-    movie.image = "../public/images/" + req.file.filename;
+    movie.image = "images/" + req.file.filename;
   }
 
   createMovie(res, movie);
@@ -90,7 +90,7 @@ const updateMovie = async (req, res) => {
   };
 
   if (req.file) {
-    fields.image = "../public/images/" + req.file.filename;
+    fields.image = "images/" + req.file.filename;
   }
 
   const result = await Movie.updateOne({ _id: req.params.id }, fields);
